@@ -1,8 +1,9 @@
-import {useState, useRef} from 'react'
+import {useState} from 'react'
 import {Link} from 'react-router-dom'
 import LandingIntro from './LandingIntro'
 import ErrorText from  '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
+import axios from 'axios'
 
 function Register(){
 
@@ -16,17 +17,19 @@ function Register(){
     const [errorMessage, setErrorMessage] = useState("")
     const [registerObj, setRegisterObj] = useState(INITIAL_REGISTER_OBJ)
 
-    const submitForm = (e) =>{
+    const submitForm = async (e) =>{
         e.preventDefault()
         setErrorMessage("")
 
+        const resp = await axios.post('/register', registerObj);
+        
         if(registerObj.name.trim() === "")return setErrorMessage("Name is required! (use any value)")
         if(registerObj.emailId.trim() === "")return setErrorMessage("Email Id is required! (use any value)")
         if(registerObj.password.trim() === "")return setErrorMessage("Password is required! (use any value)")
         else{
             setLoading(true)
             // Call API to check user credentials and save token in localstorage
-            localStorage.setItem("token", "DumyTokenHere")
+            localStorage.setItem("token", resp.data.token)
             setLoading(false)
             window.location.href = '/app/welcome'
         }

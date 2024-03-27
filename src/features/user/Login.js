@@ -1,8 +1,10 @@
-import {useState, useRef} from 'react'
-import {Link} from 'react-router-dom'
+import {useState} from 'react'
+import {Link, Navigate} from 'react-router-dom'
 import LandingIntro from './LandingIntro'
 import ErrorText from  '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
+import axios from 'axios'
+import { useAuth } from '../../context/AuthContext'
 
 function Login(){
 
@@ -14,8 +16,9 @@ function Login(){
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ)
+	const { csrfToken } = useAuth();
 
-    const submitForm = (e) =>{
+    const submitForm = async (e) =>{
         e.preventDefault()
         setErrorMessage("")
 
@@ -23,10 +26,29 @@ function Login(){
         if(loginObj.password.trim() === "")return setErrorMessage("Password is required! (use any value)")
         else{
             setLoading(true)
-            // Call API to check user credentials and save token in localstorage
-            localStorage.setItem("token", "DumyTokenHere")
-            setLoading(false)
-            window.location.href = '/app/welcome'
+            // await csrfToken();
+            try {
+                const resp = await axios.post('/login', loginObj);
+                if (resp.status === 200) {
+                    localStorage.setItem("token", JSON.stringify(resp.data.data.token));
+                    setLoading(false)
+                    console.log(JSON.stringify(resp.data.data.token))
+                    console.log(localStorage)
+                    window.location.href = '/app/welcome'
+                }
+            } catch (error) {
+                if (error.response.status === 401) {
+                    setLoading(false)
+                    setErrorMessage(error.response.data.message);
+                } else if (error.response.status === 400 ) {
+                    setLoading(false)
+                    setErrorMessage(error.message.data.message);
+                } else {
+                    setErrorMessage(error.message.data.message);
+                    setLoading(false)
+                }
+            }
+
         }
     }
 
