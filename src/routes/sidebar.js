@@ -116,12 +116,12 @@ const routes = [
         name: 'Team Members', // name that appear in Sidebar
       },
       {
-        path: '/app/settings-profile', //url
+        path: '/app/settings', //url
         icon: <Cog8ToothIcon className={submenuIconClasses}/>, // icon component
         name: 'General Settings', // name that appear in Sidebar
       },
       {
-        path: '/app/settings-profile', //url
+        path: '/app/system-settings', //url
         icon: <WrenchScrewdriverIcon className={submenuIconClasses}/>, // icon component
         name: 'System Settings', // name that appear in Sidebar
       },

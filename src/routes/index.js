@@ -1,7 +1,7 @@
 // All components mapping with path for internal routes
 
 import { lazy } from 'react'
-
+//Protected pages 
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
 const Page404 = lazy(() => import('../pages/protected/404'))
@@ -15,6 +15,10 @@ const Team = lazy(() => import('../pages/protected/Team'))
 const Transactions = lazy(() => import('../pages/protected/Transactions'))
 const Bills = lazy(() => import('../pages/protected/Bills'))
 const ProfileSettings = lazy(() => import('../pages/protected/ProfileSettings'))
+const Settings = lazy(() => import('../pages/protected/Settings'))
+const SystemSettings = lazy(() => import('../pages/protected/SystemSettings'))
+
+//Open pages
 const GettingStarted = lazy(() => import('../pages/GettingStarted'))
 const DocFeatures = lazy(() => import('../pages/DocFeatures'))
 const DocComponents = lazy(() => import('../pages/DocComponents'))
@@ -84,6 +88,14 @@ const routes = [
   {
     path: '/blank',
     component: Blank,
+  },
+  {
+    path: '/settings',
+    component: SystemSettings,
+  },
+  {
+    path: '/system-settings',
+    component: Settings,
   },
 ]
 
