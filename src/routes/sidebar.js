@@ -4,6 +4,9 @@ import DocumentTextIcon from '@heroicons/react/24/outline/DocumentTextIcon'
 import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon'
 import TableCellsIcon from '@heroicons/react/24/outline/TableCellsIcon'
 import WalletIcon from '@heroicons/react/24/outline/WalletIcon'
+import WrenchScrewdriverIcon from '@heroicons/react/24/outline/WrenchScrewdriverIcon'
+import Cog8ToothIcon from '@heroicons/react/24/outline/Cog8ToothIcon'
+import DocumentListIcon from '@heroicons/react/24/outline/ClipboardDocumentListIcon'
 import CodeBracketSquareIcon from '@heroicons/react/24/outline/CodeBracketSquareIcon'
 import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon'
 import ExclamationTriangleIcon from '@heroicons/react/24/outline/ExclamationTriangleIcon'
@@ -28,6 +31,11 @@ const routes = [
     path: '/app/dashboard',
     icon: <Squares2X2Icon className={iconClasses}/>, 
     name: 'Dashboard',
+  },
+  {
+    path: '/app/project-list', // url
+    icon: <DocumentListIcon className={iconClasses}/>, // icon component
+    name: 'Records', // name that appear in Sidebar
   },
   {
     path: '/app/leads', // url
@@ -106,6 +114,16 @@ const routes = [
         path: '/app/settings-team', // url
         icon: <UsersIcon className={submenuIconClasses}/>, // icon component
         name: 'Team Members', // name that appear in Sidebar
+      },
+      {
+        path: '/app/settings-profile', //url
+        icon: <Cog8ToothIcon className={submenuIconClasses}/>, // icon component
+        name: 'General Settings', // name that appear in Sidebar
+      },
+      {
+        path: '/app/settings-profile', //url
+        icon: <WrenchScrewdriverIcon className={submenuIconClasses}/>, // icon component
+        name: 'System Settings', // name that appear in Sidebar
       },
     ]
   },
