@@ -38,10 +38,6 @@ const routes = [
     component: ProjectLists,
   },
   {
-    path: '/leads',
-    component: Leads,
-  },
-  {
     path: '/settings-team',
     component: Team,
   },
