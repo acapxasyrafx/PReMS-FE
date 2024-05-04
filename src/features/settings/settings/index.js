@@ -26,9 +26,9 @@ function Settings(){
         <>
             <TitleCard title="Profile Settings" topMargin="mt-2">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <InputText labelTitle="Name" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Email Id" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Birth Date" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Name" defaultValue={"-"} updateFormValue={updateFormValue} />
+                        <InputText labelTitle="Email Id" defaultValue={"-"} updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Birth Date" defaultValue={"-"} updateFormValue={updateFormValue}/>
                         <InputText labelTitle="Company" defaultValue="-" updateFormValue={updateFormValue}/>
                         <InputText labelTitle="Title" defaultValue="-" updateFormValue={updateFormValue}/>
                         <InputText labelTitle="Place" defaultValue="-" updateFormValue={updateFormValue}/>
