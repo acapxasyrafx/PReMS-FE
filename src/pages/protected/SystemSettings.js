@@ -10,7 +10,6 @@ function InternalPage(){
         dispatch(setPageTitle({ title : "System Settings"}))
       }, [])
 
-
     return(
         <SystemSettings />
     )

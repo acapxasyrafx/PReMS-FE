@@ -4,51 +4,75 @@ import { useDispatch, useSelector, Loading} from "react-redux"
 import TitleCard from "../../../components/Cards/TitleCard"
 import { showNotification } from '../../common/headerSlice'
 import InputText from '../../../components/Input/InputText'
-import TextAreaInput from '../../../components/Input/TextAreaInput'
-import ToogleInput from '../../../components/Input/ToogleInput'
+import axios from "axios"
+
 
 function SystemSettings(){
 
-    const loadingStatus= true;
+    const SYSTEM_SETTING_OBJ = {
+        setting_key : "",
+        setting_value : "",
+        setting_group : "",
+    }
     const dispatch = useDispatch()
 
+    const [loading, setLoading] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
+    const [sysSettingObj, setSysSettingObj] = useState(SYSTEM_SETTING_OBJ)
+
     // Call API to update profile settings changes
-    const updateProfile = () => {
-        dispatch(showNotification({message : "System Settings Updated", status : 1}))
-        loadingStatus = false; 
+    const updateSystemSetting = async (e) => {
+        // e.preventDefault()
+        setErrorMessage("") 
+
+        if(sysSettingObj.setting_key === "")return setErrorMessage("Setting Key is required! (use any string value)")
+        if(sysSettingObj.setting_value === "")return setErrorMessage("Setting Value is required! (use any string or integer value)")
+        if(sysSettingObj.setting_group === "")return setErrorMessage("Setting Value is required! (use any string or integer value)")
+        else{
+            setLoading(true)
+            try{
+                const resp = await axios.post('/system-settings',sysSettingObj)
+                if (resp.status === 200) {
+                dispatch(showNotification({message : "System Settings Updated", status : 1}))
+                sysSettingObj.setting_key = ""
+                sysSettingObj.setting_value = ""
+                sysSettingObj.setting_group = ""
+                setLoading(false)
+                }
+            }catch (error) {
+                if (error.response.status === 401) {
+                    setLoading(false)
+                    setErrorMessage("Not authorized to make changes.");
+                } else if (error.response.status === 400 ) {
+                    setLoading(false)
+                    setErrorMessage(error.message);
+                } else {
+                    setErrorMessage(error.response.message);
+                    setLoading(false)
+                }
+            }
+        
+        }
     }
 
     const updateFormValue = ({updateType, value}) => {
         console.log(updateType)
+        setSysSettingObj({...sysSettingObj, [updateType] : value})
     }
 
     return(
         <>
-            <TitleCard title="Profile Settings" topMargin="mt-2">
+             <TitleCard title="System Settings" topMargin="mt-2">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <InputText labelTitle="Name" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Email Id" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Birth Date" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Company" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Title" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Place" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <TextAreaInput labelTitle="About" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Setting Key" defaultValue={sysSettingObj.settingKey} updateType="setting_key" updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Setting Value" defaultValue={sysSettingObj.settingValue} updateType="setting_value" updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Setting Group" defaultValue={sysSettingObj.settingGroup} updateType="setting_group" updateFormValue={updateFormValue}/>
+                        <div className="mt-16"><button className="btn btn-primary float-right" onClick={() => updateSystemSetting()}>Update</button></div>
                     </div>
+                    
                     <div className="divider" ></div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <InputText labelTitle="Language" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Timezone" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <ToogleInput updateType="syncData" labelTitle="Sync Data" defaultValue={true} updateFormValue={updateFormValue}/>
                     </div>
-                    <div className="divider" ></div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <InputText labelTitle="User Role" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Project Involve" defaultValue="-" updateFormValue={updateFormValue}/>
-                    </div>
-
-                    <div className="mt-16"><button className="btn btn-primary float-right" onClick={() => updateProfile()}>Update</button></div>
             </TitleCard>
         </>
     )

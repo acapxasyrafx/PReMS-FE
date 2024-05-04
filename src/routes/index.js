@@ -91,11 +91,11 @@ const routes = [
   },
   {
     path: '/settings',
-    component: SystemSettings,
+    component: Settings,
   },
   {
     path: '/system-settings',
-    component: Settings,
+    component: SystemSettings,
   },
 ]
 
