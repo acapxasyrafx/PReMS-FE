@@ -31,10 +31,11 @@ function Login(){
                 const resp = await axios.post('/login', loginObj);
                 if (resp.status === 200) {
                     localStorage.setItem("token", JSON.stringify(resp.data.data.token));
+                    localStorage.setItem("name", JSON.stringify(resp.data.data.name));
                     setLoading(false)
                     console.log(JSON.stringify(resp.data.data.token))
                     console.log(localStorage)
-                    window.location.href = '/app/welcome'
+                    window.location.href = '/app/dashboard'
                 }
             } catch (error) {
                 if (error.response.status === 401) {
@@ -44,8 +45,8 @@ function Login(){
                     setLoading(false)
                     setErrorMessage(error.message.data.message);
                 } else {
-                    setErrorMessage(error.message.data.message);
                     setLoading(false)
+                    setErrorMessage(error.message.data.message);
                 }
             }
 

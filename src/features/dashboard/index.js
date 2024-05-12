@@ -13,20 +13,45 @@ import DashboardTopBar from './components/DashboardTopBar'
 import { useDispatch } from 'react-redux'
 import {showNotification} from '../common/headerSlice'
 import DoughnutChart from './components/DoughnutChart'
-import { useState } from 'react'
-
-const statsData = [
-    {title : "New Users", value : "5", icon : <UserGroupIcon className='w-8 h-8'/>, description : "↗︎ 4 (100%)"},
-    {title : "Total Sales", value : "$34,545", icon : <CreditCardIcon className='w-8 h-8'/>, description : "Current month"},
-    {title : "Pending Project", value : "1", icon : <CircleStackIcon className='w-8 h-8'/>, description : "1 in Progress"},
-    {title : "Active Users", value : "5", icon : <UsersIcon className='w-8 h-8'/>, description : "↙ 5 (100%)"},
-]
-
+import React, { useState, setState, useEffect } from 'react'
 
 
 function Dashboard(){
+    const [data, setData] = useState([]);
 
     const dispatch = useDispatch()
+
+    const statsData = [
+        {title : "New Users", value : data, icon : <UserGroupIcon className='w-8 h-8'/>, description : ""},
+        {title : "Total Sales", value : "RM "+data, icon : <CreditCardIcon className='w-8 h-8'/>, description : "Current month"},
+        {title : "Pending Project", value : data, icon : <CircleStackIcon className='w-8 h-8'/>, description : data + " in Progress"},
+        {title : "Total Project", value : data, icon : <CircleStackIcon className='w-8 h-8'/>, description : ""},
+    ]
+    
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const token = localStorage.getItem('token')
+
+            fetch('https://presm-be.vercel.app/api/api/data-report')
+            .then(response => response.json())
+            .then(data => setData(data))
+            .catch(error => console.log(error));
+          } catch (error) {
+            console.log('An error occurred while fetching data:', error);
+          }
+        };
+    
+        fetchData();
+    
+        // Optionally, you can set a polling interval to fetch data continuously
+        const interval = setInterval(() => {
+          fetchData();
+        }, 5000); // Fetch data every 5 seconds
+    
+        // Clean up the interval when the component is unmounted
+        return () => clearInterval(interval);
+      }, []);
  
 
     const updateDashboardPeriod = (newRange) => {
@@ -52,11 +77,11 @@ function Dashboard(){
 
 
 
-        {/** ---------------------- Different charts ------------------------- */}
+        {/* * ---------------------- Different charts -------------------------
             <div className="grid lg:grid-cols-2 mt-4 grid-cols-1 gap-6">
                 <LineChart />
                 <BarChart />
-            </div>
+            </div> */}
             
         {/* * ---------------------- Different stats content 2 -------------------------
         
