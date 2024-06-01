@@ -8,7 +8,9 @@ import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/gl
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import { showNotification } from '../common/headerSlice'
 import { DocumentPlusIcon } from "@heroicons/react/16/solid"
-import { useHistory } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from "react-router-dom";
+
 
 const TopSideButtons = () => {
 
@@ -30,18 +32,28 @@ function Leads(){
     const {leads } = useSelector(state => state.lead)
     const dispatch = useDispatch()
     const [data, setData] = useState([]);
-    // const history = useHistory();
+    let navigate = useNavigate(); 
 
     useEffect(() => {
-          try {
-            const token = localStorage.getItem('token')
-
-            fetch('https://presm-be.vercel.app/api/api/getProject')
-            .then(response => response.json())
-            .then(data => setData(data));
-          } catch (error) {
-            console.log('An error occurred while fetching data:', error);
+        const fetchData = async () => {
+            try {
+              const token = localStorage.getItem('token')
+  
+              fetch('https://presm-be.vercel.app/api/api/getProject')
+              .then(response => response.json())
+              .then(data => setData(data))
+              .catch(error => console.log(error));
+            } catch (error) {
+              console.log('An error occurred while fetching data:', error);
+            }
           };
+            // Optionally, you can set a polling interval to fetch data continuously
+            const interval = setInterval(() => {
+                fetchData();
+            }, 5000); // Fetch data every 5 seconds
+        
+            // Clean up the interval when the component is unmounted
+            return () => clearInterval(interval);
       }, []);
 
     
@@ -61,11 +73,9 @@ function Leads(){
     }
 
     const openCurrentLead = (index) => {
-            // Simulate data fetch or API call
-            const fetchedData = 'Hello World';
-        
-            setData(fetchedData);
-            // history.push('/view-data'); // Redirect to DataView component
+          let path = `/project-details`; 
+          navigate(path);
+      
     }
 
     return(
