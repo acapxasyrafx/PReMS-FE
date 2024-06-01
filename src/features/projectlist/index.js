@@ -8,7 +8,6 @@ import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/gl
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import { showNotification } from '../common/headerSlice'
 import { DocumentPlusIcon } from "@heroicons/react/16/solid"
-import React from 'react';
 import { useNavigate } from "react-router-dom";
 
 
@@ -72,7 +71,7 @@ function Leads(){
         extraObject : { message : `Are you sure you want to delete this project?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index}}))
     }
 
-    const openCurrentLead = (index) => {
+    const openCurrentLead = () => {
           let path = `/project-details`; 
           navigate(path);
       
@@ -113,8 +112,10 @@ function Leads(){
                                         </div>
                                     </td>
                                     <td>{getDummyStatus(k)}</td>
-                                    <td><button className="btn btn-square btn-ghost" onClick={() => deleteCurrentLead(k)}><TrashIcon className="w-5"/></button>
-                                    <button className="btn btn-square btn-ghost" onClick={() => openCurrentLead(k)}><DocumentPlusIcon className="w-5"/></button></td>
+                                    <td>
+                                        <button className="btn btn-square btn-ghost" onClick={() => deleteCurrentLead(k)}><TrashIcon className="w-5"/></button>
+                                        <button className="btn btn-square btn-ghost" onClick={openCurrentLead}><DocumentPlusIcon className="w-5"/></button>
+                                    </td>
                                     </tr>
                                 )
                             })

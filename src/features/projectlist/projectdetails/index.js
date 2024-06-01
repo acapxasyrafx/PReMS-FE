@@ -26,26 +26,39 @@ function ProjectDetails(){
         <>
             <TitleCard title="Profile Settings" topMargin="mt-2">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <InputText labelTitle="Name" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Email Id" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Birth Date" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Company" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Title" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Place" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <TextAreaInput labelTitle="About" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Project Start Date" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Project End Date" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Project Code" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Project Type" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Project Category" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Project Cost" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <TextAreaInput labelTitle="Project Description" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <labelTitle labelTitle="Project Status" defaultValue=""></labelTitle>
                     </div>
                     <div className="divider" ></div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <InputText labelTitle="Language" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Timezone" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <ToogleInput updateType="syncData" labelTitle="Sync Data" defaultValue={true} updateFormValue={updateFormValue}/>
+                        <TextAreaInput labelTitle="Project Team Members" defaultValue="-" updateFormValue={updateFormValue}/>
                     </div>
                     <div className="divider" ></div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <InputText labelTitle="User Role" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Project Involve" defaultValue="-" updateFormValue={updateFormValue}/>
+                        <input type="file" className="file-input file-input-bordered file-input-primary w-full max-w-xs" />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="overflow-x-auto">
+                            <table className="table">
+                                {/* head */}
+                                <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th> Document Name</th>
+                                    <th> Date</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
 
                     <div className="mt-16"><button className="btn btn-primary float-right" onClick={() => updateProfile()}>Update</button></div>
