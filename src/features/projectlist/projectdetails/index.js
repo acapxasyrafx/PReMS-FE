@@ -14,7 +14,7 @@ function ProjectDetails(){
 
     // Call API to update profile settings changes
     const updateProfile = () => {
-        dispatch(showNotification({message : "Profile Updated", status : 1}))
+        dispatch(showNotification({message : "Project Details Updated", status : 1}))
         loadingStatus = false; 
     }
 
@@ -24,7 +24,7 @@ function ProjectDetails(){
 
     return(
         <>
-            <TitleCard title="Profile Settings" topMargin="mt-2">
+            <TitleCard title="Project Details" topMargin="mt-2">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <InputText labelTitle="Project Start Date" defaultValue="-" updateFormValue={updateFormValue}/>
                         <InputText labelTitle="Project End Date" defaultValue="-" updateFormValue={updateFormValue}/>
