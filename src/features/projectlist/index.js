@@ -1,5 +1,5 @@
 import moment from "moment"
-import { useEffect, table } from "react"
+import { useState, setState, useEffect, table } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import TitleCard from "../../components/Cards/TitleCard"
 import { openModal } from "../common/modalSlice"
@@ -8,6 +8,7 @@ import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/gl
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import { showNotification } from '../common/headerSlice'
 import { DocumentPlusIcon } from "@heroicons/react/16/solid"
+import { useHistory } from 'react-router-dom';
 
 const TopSideButtons = () => {
 
@@ -28,10 +29,20 @@ function Leads(){
 
     const {leads } = useSelector(state => state.lead)
     const dispatch = useDispatch()
+    const [data, setData] = useState([]);
+    // const history = useHistory();
 
     useEffect(() => {
-        dispatch(getLeadsContent())
-    }, [])
+          try {
+            const token = localStorage.getItem('token')
+
+            fetch('https://presm-be.vercel.app/api/api/getProject')
+            .then(response => response.json())
+            .then(data => setData(data));
+          } catch (error) {
+            console.log('An error occurred while fetching data:', error);
+          };
+      }, []);
 
     
 
@@ -46,10 +57,15 @@ function Leads(){
 
     const deleteCurrentLead = (index) => {
         dispatch(openModal({title : "Confirmation", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
-        extraObject : { message : `Are you sure you want to delete this lead?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index}}))
+        extraObject : { message : `Are you sure you want to delete this project?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index}}))
     }
 
     const openCurrentLead = (index) => {
+            // Simulate data fetch or API call
+            const fetchedData = 'Hello World';
+        
+            setData(fetchedData);
+            // history.push('/view-data'); // Redirect to DataView component
     }
 
     return(
@@ -69,11 +85,11 @@ function Leads(){
                     </thead>
                     <tbody>
                         {
-                            leads.map((l, k) => {
+                            data.map((l, k) => {
                                 return(
                                     <tr key={k}>
 
-                                    <td>{l.project_name}</td>
+                                    <td>{l.projectName}</td>
                                     <td>
                                         <div className="flex items-center space-x-3">
                                             <div className="avatar">
@@ -82,7 +98,7 @@ function Leads(){
                                                 </div>
                                             </div>
                                             <div>
-                                                <div className="font-bold">{l.project_manager}</div>
+                                                <div className="font-bold">{l.projectManager}</div>
                                             </div>
                                         </div>
                                     </td>

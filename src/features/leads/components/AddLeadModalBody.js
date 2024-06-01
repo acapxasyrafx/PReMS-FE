@@ -4,6 +4,7 @@ import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
 import { showNotification } from "../../common/headerSlice"
 import { addNewLead } from "../leadSlice"
+import axios from "axios"
 
 const INITIAL_LEAD_OBJ = {
     client_name : "",
@@ -18,20 +19,43 @@ function AddLeadModalBody({closeModal}){
     const [leadObj, setLeadObj] = useState(INITIAL_LEAD_OBJ)
 
 
-    const saveNewLead = () => {
+    const saveNewLead = async (e) => {
+
+        // e.preventDefault()
+        setErrorMessage("")
         // if(leadObj.project_name.trim() === "")return setErrorMessage("Project Name is required!")
         // else if(leadObj.project_manager.trim() === "")return setErrorMessage("Project Manager is required!")
         // else if(leadObj.email.trim() === "")return setErrorMessage("Client Name is required!")
         // else{
             let newLeadObj = {
                 "id": 7,
-                "client_name": leadObj.client_name,
-                "project_name": leadObj.project_name,
-                "project_manager": leadObj.project_manager,
-                "avatar": "https://reqres.in/img/faces/1-image.jpg"
+                "clientName": leadObj.client_name,
+                "projectName": leadObj.project_name,
+                "projectManager": leadObj.project_manager,
+                "projectDetail": '-',
+                "projectCode": leadObj.project_name,
             }
-            dispatch(addNewLead({newLeadObj}))
-            dispatch(showNotification({message : "New Project Added!", status : 1}))
+            // dispatch(addNewLead({newLeadObj}))
+            setLoading(true)
+            // await csrfToken();
+            try {
+                const resp = await axios.post('/addProject', newLeadObj);
+                if (resp.status === 200) {
+                    setLoading(false)
+                    dispatch(showNotification({message : "New Project Added!", status : 1}))
+                }
+            } catch (error) {
+                if (error.response.status === 401) {
+                    setLoading(false)
+                    setErrorMessage(error.response.data.message);
+                } else if (error.response.status === 400 ) {
+                    setLoading(false)
+                    setErrorMessage(error.response.data.message);
+                } else {
+                    setLoading(false)
+                    setErrorMessage(error.response.data.message);
+                }
+            }
             closeModal()
         // }
     }
