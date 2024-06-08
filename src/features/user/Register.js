@@ -20,18 +20,24 @@ function Register(){
     const submitForm = async (e) =>{
         e.preventDefault()
         setErrorMessage("")
-
-        const resp = await axios.post('/register', registerObj);
         
         if(registerObj.name.trim() === "")return setErrorMessage("Name is required! (use any value)")
         if(registerObj.emailId.trim() === "")return setErrorMessage("Email Id is required! (use any value)")
         if(registerObj.password.trim() === "")return setErrorMessage("Password is required! (use any value)")
         else{
+
             setLoading(true)
-            // Call API to check user credentials and save token in localstorage
-            localStorage.setItem("token", resp.data.token)
-            setLoading(false)
-            window.location.href = '/app/welcome'
+            try {
+                const resp = await axios.post('/register', registerObj);
+                // Call API to check user credentials and save token in localstorage
+                localStorage.setItem("token", resp.data.token)
+                
+                window.location.href = '/app/welcome'
+            } catch (error) {
+                setLoading(false)
+                console.log(error);
+            }
+            
         }
     }
 
