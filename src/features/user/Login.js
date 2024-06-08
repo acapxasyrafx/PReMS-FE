@@ -43,10 +43,10 @@ function Login(){
                     setErrorMessage(error.response.data.message);
                 } else if (error.response.status === 400 ) {
                     setLoading(false)
-                    setErrorMessage(error.message.data.message);
+                    setErrorMessage(error.response.data.message);
                 } else {
                     setLoading(false)
-                    setErrorMessage(error.message.data.message);
+                    setErrorMessage(error.response.data.message);
                 }
             }
 
