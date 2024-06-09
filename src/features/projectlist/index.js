@@ -28,6 +28,8 @@ const TopSideButtons = () => {
 
 function Leads(){
 
+
+    const [loading, setLoading] = useState(false)
     const {leads } = useSelector(state => state.lead)
     const dispatch = useDispatch()
     const [data, setData] = useState([]);
@@ -36,14 +38,17 @@ function Leads(){
     useEffect(() => {
         const fetchData = async () => {
             try {
+              setLoading(true);
               const token = localStorage.getItem('token')
   
               fetch('https://presm-be.vercel.app/api/api/getProject')
               .then(response => response.json())
               .then(data => setData(data))
               .catch(error => console.log(error));
+              setLoading(false)
             } catch (error) {
               console.log('An error occurred while fetching data:', error);
+              setLoading(false)
             }
           };
             // Optionally, you can set a polling interval to fetch data continuously
@@ -71,9 +76,9 @@ function Leads(){
         extraObject : { message : `Are you sure you want to delete this project?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index}}))
     }
 
-    const openCurrentLead = () => {
-          let path = `/project-details`; 
-          navigate(path);
+    const openCurrentLead = (index) => {
+          let path = `/app/project-details`; 
+          navigate(path,{state:{id:index}});
       
     }
 
@@ -96,14 +101,14 @@ function Leads(){
                         {
                             data.map((l, k) => {
                                 return(
-                                    <tr key={k}>
+                                    <tr key={l.id}>
 
                                     <td>{l.projectName}</td>
                                     <td>
                                         <div className="flex items-center space-x-3">
                                             <div className="avatar">
                                                 <div className="mask mask-squircle w-12 h-12">
-                                                    <img src={l.avatar} alt="Avatar" />
+                                                    <img src="https://i.pravatar.cc/300" alt="Avatar" />
                                                 </div>
                                             </div>
                                             <div>
@@ -113,8 +118,8 @@ function Leads(){
                                     </td>
                                     <td>{getDummyStatus(k)}</td>
                                     <td>
-                                        <button className="btn btn-square btn-ghost" onClick={() => deleteCurrentLead(k)}><TrashIcon className="w-5"/></button>
-                                        <button className="btn btn-square btn-ghost" onClick={openCurrentLead}><DocumentPlusIcon className="w-5"/></button>
+                                        <button className="btn btn-square btn-ghost" onClick={() => deleteCurrentLead(l.id)}><TrashIcon className="w-5"/></button>
+                                        <button className="btn btn-square btn-ghost" onClick={() => openCurrentLead(l.id)}><DocumentPlusIcon className="w-5"/></button>
                                     </td>
                                     </tr>
                                 )
