@@ -26,7 +26,7 @@ function ForgotPassword(){
             setLoading(true)
             // Call API to send password reset link
             try {
-                const resp = await axios.post('/forgotpassword', userObj);
+                const resp = await axios.post('/forgotPassword', userObj);
                 if (resp.status === 200) {
                     localStorage.setItem("token", JSON.stringify(resp.data.data.token));
                     setLoading(false)
