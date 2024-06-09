@@ -4,6 +4,7 @@ import LandingIntro from './LandingIntro'
 import ErrorText from  '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
 import CheckCircleIcon  from '@heroicons/react/24/solid/CheckCircleIcon'
+import axios from 'axios'
 
 function ForgotPassword(){
 
@@ -16,7 +17,7 @@ function ForgotPassword(){
     const [linkSent, setLinkSent] = useState(false)
     const [userObj, setUserObj] = useState(INITIAL_USER_OBJ)
 
-    const submitForm = (e) =>{
+    const submitForm = async (e) =>{
         e.preventDefault()
         setErrorMessage("")
 
@@ -24,8 +25,27 @@ function ForgotPassword(){
         else{
             setLoading(true)
             // Call API to send password reset link
-            setLoading(false)
-            setLinkSent(true)
+            try {
+                const resp = await axios.post('/forgotpassword', userObj);
+                if (resp.status === 200) {
+                    localStorage.setItem("token", JSON.stringify(resp.data.data.token));
+                    setLoading(false)
+                    setLinkSent(true)
+                    console.log(JSON.stringify(resp.data.data.token))
+                    console.log(localStorage)
+                }
+            } catch (error) {
+                if (error.response.status === 401) {
+                    setLoading(false)
+                    setErrorMessage(error.response.data.message);
+                } else if (error.response.status === 400 ) {
+                    setLoading(false)
+                    setErrorMessage(error.response.data.message);
+                } else {
+                    setLoading(false)
+                    setErrorMessage(error.response.data.message);
+                }
+            }
         }
     }
 
