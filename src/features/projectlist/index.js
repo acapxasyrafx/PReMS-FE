@@ -118,8 +118,8 @@ function Leads(){
                                     </td>
                                     <td>{getDummyStatus(k)}</td>
                                     <td>
-                                        <button className="btn btn-square btn-ghost" onClick={() => deleteCurrentLead(l.id)}><TrashIcon className="w-5"/></button>
-                                        <button className="btn btn-square btn-ghost" onClick={() => openCurrentLead(l.id)}><DocumentPlusIcon className="w-5"/></button>
+                                        <button className="btn btn-square btn-ghost" onClick={() => deleteCurrentLead(l.projectCode)}><TrashIcon className="w-5"/></button>
+                                        <button className="btn btn-square btn-ghost" onClick={() => openCurrentLead(l.projectCode)}><DocumentPlusIcon className="w-5"/></button>
                                     </td>
                                     </tr>
                                 )
