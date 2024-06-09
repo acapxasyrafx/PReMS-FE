@@ -1,5 +1,5 @@
 import moment from "moment"
-import { useEffect, useState } from "react"
+import { useEffect, setState, useState } from "react"
 import { useDispatch, useSelector, Loading} from "react-redux"
 import TitleCard from "../../../components/Cards/TitleCard"
 import { showNotification } from '../../common/headerSlice'
@@ -14,6 +14,14 @@ function ProjectDetails(){
     const dispatch = useDispatch()
     const location = useLocation();
     const [data, setData] = useState([]);
+    const [startDate] = useState("-");
+    const [endDate] = useState("-");
+    const [projectCode] = useState("-");
+    const [type] = useState("-"); 
+    const [category] = useState("-");
+    const [cost] = useState("-");
+    const [description] = useState("-");
+    const [status] = useState("-");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,6 +33,11 @@ function ProjectDetails(){
               .then(response => response.json())
               .then(data => setData(data))
               .catch(error => console.log(error));
+
+              this.setState ({
+                projectCode : data[0].projectCode,
+                description: data[0].projectDetail,
+              });
             } catch (error) {
               console.log('An error occurred while fetching data:', error);
             }
@@ -61,16 +74,16 @@ function ProjectDetails(){
     return(
         <>
             <TitleCard title="Project Details" topMargin="mt-2">
-            <div>{location.state.id}</div>
+            
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <InputText labelTitle="Project Start Date" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Project End Date" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Project Code" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Project Type" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Project Category" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <InputText labelTitle="Project Cost" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <TextAreaInput labelTitle="Project Description" defaultValue="-" updateFormValue={updateFormValue}/>
-                        <labelTitle labelTitle="Project Status" defaultValue=""></labelTitle>
+                        <InputText labelTitle="Project Start Date" defaultValue={startDate} updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Project End Date" defaultValue={endDate} updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Project Code" defaultValue={location.state.id ?? "-"} updateFormValue={updateFormValue}>{location.state.id}</InputText>
+                        <InputText labelTitle="Project Type" defaultValue={type} updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Project Category" defaultValue={category} updateFormValue={updateFormValue}/>
+                        <InputText labelTitle="Project Cost" defaultValue={cost} updateFormValue={updateFormValue}/>
+                        <TextAreaInput labelTitle="Project Description" defaultValue={useState.description} updateFormValue={updateFormValue}/>
+                        <labelTitle labelTitle="Project Status" defaultValue={status}></labelTitle>
                     </div>
                     <div className="divider" ></div>
 

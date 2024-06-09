@@ -38,17 +38,14 @@ function Leads(){
     useEffect(() => {
         const fetchData = async () => {
             try {
-              setLoading(true);
               const token = localStorage.getItem('token')
   
               fetch('https://presm-be.vercel.app/api/api/getProject')
               .then(response => response.json())
               .then(data => setData(data))
               .catch(error => console.log(error));
-              setLoading(false)
             } catch (error) {
               console.log('An error occurred while fetching data:', error);
-              setLoading(false)
             }
           };
             // Optionally, you can set a polling interval to fetch data continuously
