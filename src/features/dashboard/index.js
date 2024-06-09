@@ -18,6 +18,7 @@ import React, { useState, setState, useEffect } from 'react'
 
 function Dashboard(){
     const [data, setData] = useState([]);
+    const [data2, setData2] = useState([]);
 
     const dispatch = useDispatch()
 
@@ -25,7 +26,7 @@ function Dashboard(){
         {title : "New Users", value : data, icon : <UserGroupIcon className='w-8 h-8'/>, description : ""},
         {title : "Total Sales", value : "RM "+data, icon : <CreditCardIcon className='w-8 h-8'/>, description : "Current month"},
         {title : "Pending Project", value : data, icon : <CircleStackIcon className='w-8 h-8'/>, description : data + " in Progress"},
-        {title : "Total Project", value : data, icon : <CircleStackIcon className='w-8 h-8'/>, description : ""},
+        {title : "Total Project", value : data2, icon : <CircleStackIcon className='w-8 h-8'/>, description : ""},
     ]
     
     useEffect(() => {
@@ -36,6 +37,10 @@ function Dashboard(){
             fetch('https://presm-be.vercel.app/api/api/data-report')
             .then(response => response.json())
             .then(data => setData(data))
+            .catch(error => console.log(error));
+            fetch('https://presm-be.vercel.app/api/api/data-report2')
+            .then(response => response.json())
+            .then(data => setData2(data))
             .catch(error => console.log(error));
           } catch (error) {
             console.log('An error occurred while fetching data:', error);
