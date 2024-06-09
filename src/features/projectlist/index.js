@@ -71,6 +71,11 @@ function Leads(){
     const deleteCurrentLead = (index) => {
         dispatch(openModal({title : "Confirmation", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
         extraObject : { message : `Are you sure you want to delete this project?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index}}))
+        try{
+            fetch('https://presm-be.vercel.app/api/api/deleteProject/'+index).then(response => response.json).catch(error => console.log(error))
+        } catch (error) {
+            console.log('An error occurred while deleting the data:', error);
+        }
     }
 
     const openCurrentLead = (index) => {
