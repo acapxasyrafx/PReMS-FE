@@ -69,7 +69,7 @@ function ForgotPassword(){
                         <>
                             <div className='text-center mt-8'><CheckCircleIcon className='inline-block w-32 text-success'/></div>
                             <p className='my-4 text-xl font-bold text-center'>Link Sent</p>
-                            <p className='mt-4 mb-8 font-semibold text-center'>Check your email to reset password</p>
+                            <p className='mt-4 mb-8 font-semibold text-center'>Check your email for a new password</p>
                             <div className='text-center mt-4'><Link to="/login"><button className="btn btn-block btn-primary ">Login</button></Link></div>
 
                         </>
