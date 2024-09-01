@@ -29,6 +29,8 @@
     "react-scripts": "5.0.1",
     "react-tailwindcss-datepicker": "^1.6.0",
     "theme-change": "^2.2.0",
+    "vue-router": "^4.4.0",
+    "vuex": "^4.0.2",
     "web-vitals": "^2.1.4"
   },
   "repository": {
